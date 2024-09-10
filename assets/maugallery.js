@@ -122,79 +122,71 @@
     prevImage() {
       let activeImage = null;
       $("img.gallery-item").each(function() {
-        if ($(this).attr("src") === $(".lightboxImage").attr("src")) {
-          activeImage = $(this);
-        }
+          if ($(this).attr("src") === $(".lightboxImage").attr("src")) {
+              activeImage = $(this);
+          }
       });
+  
       let activeTag = $(".tags-bar span.active-tag").data("images-toggle");
       let imagesCollection = [];
       if (activeTag === "all") {
-        $(".item-column").each(function() {
-          if ($(this).children("img").length) {
-            imagesCollection.push($(this).children("img"));
-          }
-        });
+          $(".item-column").each(function() {
+              if ($(this).children("img").length) {
+                  imagesCollection.push($(this).children("img"));
+              }
+          });
       } else {
-        $(".item-column").each(function() {
-          if (
-            $(this)
-              .children("img")
-              .data("gallery-tag") === activeTag
-          ) {
-            imagesCollection.push($(this).children("img"));
-          }
-        });
+          $(".item-column").each(function() {
+              if ($(this).children("img").data("gallery-tag") === activeTag) {
+                  imagesCollection.push($(this).children("img"));
+              }
+          });
       }
-      let index = 0,
-        next = null;
-
+  
+      let index = 0;
       $(imagesCollection).each(function(i) {
-        if ($(activeImage).attr("src") === $(this).attr("src")) {
-          index = i ;
-        }
+          if ($(activeImage).attr("src") === $(this).attr("src")) {
+              index = i;
+          }
       });
-      next =
-        imagesCollection[index] ||
-        imagesCollection[imagesCollection.length - 1];
-      $(".lightboxImage").attr("src", $(next).attr("src"));
-    },
+      index = (index - 1 + imagesCollection.length) % imagesCollection.length;
+      $(".lightboxImage").attr("src", $(imagesCollection[index]).attr("src"));
+  }
+  ,
     nextImage() {
       let activeImage = null;
       $("img.gallery-item").each(function() {
-        if ($(this).attr("src") === $(".lightboxImage").attr("src")) {
-          activeImage = $(this);
-        }
+          if ($(this).attr("src") === $(".lightboxImage").attr("src")) {
+              activeImage = $(this);
+          }
       });
+  
       let activeTag = $(".tags-bar span.active-tag").data("images-toggle");
       let imagesCollection = [];
       if (activeTag === "all") {
-        $(".item-column").each(function() {
-          if ($(this).children("img").length) {
-            imagesCollection.push($(this).children("img"));
-          }
-        });
+          $(".item-column").each(function() {
+              if ($(this).children("img").length) {
+                  imagesCollection.push($(this).children("img"));
+              }
+          });
       } else {
-        $(".item-column").each(function() {
-          if (
-            $(this)
-              .children("img")
-              .data("gallery-tag") === activeTag
-          ) {
-            imagesCollection.push($(this).children("img"));
-          }
-        });
+          $(".item-column").each(function() {
+              if ($(this).children("img").data("gallery-tag") === activeTag) {
+                  imagesCollection.push($(this).children("img"));
+              }
+          });
       }
-      let index = 0,
-        next = null;
-
+  
+      let index = 0;
       $(imagesCollection).each(function(i) {
-        if ($(activeImage).attr("src") === $(this).attr("src")) {
-          index = i;
-        }
+          if ($(activeImage).attr("src") === $(this).attr("src")) {
+              index = i;
+          }
       });
-      next = imagesCollection[index] || imagesCollection[0];
-      $(".lightboxImage").attr("src", $(next).attr("src"));
-    },
+      index = (index + 1) % imagesCollection.length;
+      $(".lightboxImage").attr("src", $(imagesCollection[index]).attr("src"));
+  }
+  ,
     createLightBox(gallery, lightboxId, navigation) {
       gallery.append(`<div class="modal fade" id="${
         lightboxId ? lightboxId : "galleryLightbox"
