@@ -218,6 +218,7 @@
                   <span class="nav-link" data-images-toggle="${value}">${value}</span></li>`;
       });
       var tagsRow = `<ul class="my-4 tags-bar nav nav-pills">${tagItems}</ul>`;
+      
       if (position === "bottom") {
           gallery.append(tagsRow);
       } else if (position === "top") {
@@ -228,23 +229,23 @@
       $(".tags-bar .nav-link").on("click", function() {
           $(".tags-bar .nav-link").removeClass("active active-tag");
           $(this).addClass("active active-tag");
+          $.fn.mauGallery.methods.filterByTag.call(this);
       });
-  },
+  }
+  
+  ,
   filterByTag() {
-    if ($(this).hasClass("active-tag")) {
-        return;
-    }
-    $(".active-tag").removeClass("active active-tag");
-    $(this).addClass("active active-tag");
     var tag = $(this).data("images-toggle");
+  
     $(".gallery-item").each(function() {
-        $(this).parents(".item-column").hide(); 
-        if (tag === "all") {
-            $(this).parents(".item-column").show(300);
-        } else if ($(this).data("gallery-tag") === tag) {
-            $(this).parents(".item-column").show(300);
-        }
+      var $itemColumn = $(this).closest(".item-column");
+      $itemColumn.hide();
+  
+      if (tag === "all" || $(this).data("gallery-tag") === tag) {
+        $itemColumn.show(300);
+      }
     });
   }
+
 };
 })(jQuery);
